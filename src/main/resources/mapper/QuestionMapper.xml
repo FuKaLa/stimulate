@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.stimulate.dao.QuestionDao">
+
+
+    <insert id="saveQuestion" parameterType="com.example.stimulate.entity.Question">
+          INSERT INTO `question` (
+                `id`,
+                `context`,
+                `teacher_id`,
+                `student_id`,
+                `status`,
+                `createtime`
+            )
+            VALUES
+                (
+                    #{id},
+                    #{questionName},
+                    #{teacherId},
+                    #{studentId},
+                    #{status},
+                    #{createtime}
+                )
+
+    </insert>
+
+    <select id="getAnsweredS" resultType="com.example.stimulate.entity.QuestionSVO">
+
+       SELECT
+            q.id AS id,
+            q.context AS questionName,
+            q.createtime AS createtime,
+            q.teacher_id AS teacherId,
+            u.username AS teacherName
+        FROM
+            question AS q
+        LEFT JOIN `user` AS u ON q.teacher_id = u.id
+        WHERE q. STATUS = #{status} AND student_id = #{studentId}
+
+    </select>
+
+    <select id="getAnsweredT" resultType="com.example.stimulate.entity.QuestionTVO">
+
+            SELECT
+            q.id AS id,
+            q.context AS questionName,
+            q.createtime AS createtime,
+            q.student_id AS createId,
+            u.username AS createName,
+            u.clazz AS clazz,
+            u.major AS major,
+            u.college AS college
+        FROM
+            question AS q
+        LEFT JOIN `user` AS u ON q.student_id = u.id
+        WHERE q. STATUS = #{status} AND teacher_id = #{teacherId}
+
+    </select>
+
+
+    <insert id="saveQuestionDetail" parameterType="com.example.stimulate.entity.QuestionAnswered">
+
+        INSERT INTO `question_detail` (
+            `id`,
+            `question_id`,
+            `user_id`,
+            `context`,
+            `createtime`
+        )
+        VALUES
+            (#{id}, #{questionId}, #{userId}, #{context}, #{createtime})
+
+    </insert>
+
+
+    <update id="updateStatus">
+
+        UPDATE `question` SET status = 2 WHERE  `id` = #{questionId}
+
+    </update>
+
+
+    <select id="getQuestionDetail" resultType="com.example.stimulate.entity.QuestionAnswered">
+
+        SELECT
+            aa.`id` AS id,
+            aa.`question_id` AS questionId,
+            aa.`user_id` AS userId,
+            aa.`context` AS context,
+            aa.`createtime` AS createtime,
+            uu.`username` AS username
+            FROM `question_detail` AS aa LEFT JOIN  `user` AS uu ON aa.`user_id` = uu.`id`
+            WHERE  aa.`question_id` = #{questionId} order by aa.`createtime` desc
+
+    </select>
+
+    <select id="getQuestionName" resultType="string">
+
+        SELECT context FROM `question` WHERE `id` = #{questionId}
+
+    </select>
+
+
+</mapper>

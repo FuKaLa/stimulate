@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.stimulate.dao.ChatRecordDao">
+
+
+    <insert id="save" parameterType="com.example.stimulate.entity.ChatRecord">
+          INSERT INTO `talkcontext` (
+        `id`,
+        `team_id`,
+        `user_id`,
+        `role_id`,
+        `context`,
+        `createtime`
+          )
+           VALUES
+        (
+            #{id},
+            #{teamId},
+            #{userId},
+            #{roleId},
+            #{context},
+            #{createtime}
+        );
+
+    </insert>
+
+    <select id="getTeamChatRecord" resultType="com.example.stimulate.entity.ChatRecordVO">
+
+        SELECT t.`id` AS id,
+               t.user_id AS userId ,
+               t.context,
+               u.username,
+               t.createtime
+               FROM talkcontext AS t ,user AS u
+        WHERE t.team_id = #{teamId} and t.user_id = u.id
+        order By t.createtime desc
+
+    </select>
+
+
+
+</mapper>

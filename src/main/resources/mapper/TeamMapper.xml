@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.stimulate.dao.TeamDao">
+
+	<insert id="save" parameterType="com.example.stimulate.entity.Team">
+
+		  INSERT INTO `team` (
+			`id`,
+			`name`,
+			`city`,
+			`college`,
+			`school`,
+			`clazz`,
+			`major`,
+			`introduce`,
+			`createuser`,
+			`createtime`,
+			`updateuser`,
+			`updatetime`,
+			`deadtime`,
+			`plan_id`,
+			`type`,
+			`leader`,
+			`team_count`
+		)
+		VALUES
+			(
+				#{id},
+				#{name},
+				#{city},
+				#{college},
+				#{school},
+				#{clazz},
+				#{major},
+				#{introduce},
+				#{createuser},
+				#{createtime},
+				#{updateuser},
+				#{updatetime},
+				#{deadtime},
+				#{planId},
+				#{type},
+				#{leader},
+				#{teamCount}
+			);
+
+
+	</insert>
+
+	<select id="getJoinList" resultType="com.example.stimulate.entity.TeamVO">
+		SELECT
+			t.`id` AS id,
+			t.`name` AS name,
+			t.`city` AS city,
+			t.`college` AS college,
+			t.`school` AS school,
+			t.`clazz` AS clazz,
+			t.`major` AS major,
+			t.`introduce` AS introduce,
+			t.`createuser` AS createuser,
+			t.`createtime` AS createtime,
+			t.`updateuser` AS updateuser,
+			t.`updatetime` AS updatetime,
+			t.`deadtime` AS deadtime,
+			t.`type` AS type,
+			t.`leader` AS leader,
+			t.`team_count` AS teamCount
+			FROM  team AS t ,and_team_user AS aut WHERE aut.team_id = t.id AND aut.user_id = #{userId}
+	</select>
+
+	<select id="getJoinCount" resultType="integer">
+
+		SELECT count(1) FROM and_team_user WHERE team_id = #{id}
+
+	</select>
+
+	<select id="getTeamList" resultType="com.example.stimulate.entity.TeamVO">
+
+		SELECT
+			`id` AS id,
+			`name` AS name,
+			`city` AS city,
+			`college` AS college,
+			`school` AS school,
+			`clazz` AS clazz,
+			`major` AS major,
+			`introduce` AS introduce,
+			`createuser` AS createuser,
+			`createtime` AS createtime,
+			`updateuser` AS updateuser,
+			`updatetime` AS updatetime,
+			`deadtime` AS deadtime,
+			`type` AS type,
+			`leader` AS leader,
+			`team_count` AS teamCount
+			FROM  team
+		<where>
+			<if test="name != null and name != ''">
+				AND name LIKE CONCAT(CONCAT('%',#{name},'%'))
+			</if>
+		</where>
+		order by createtime desc
+		<if test="offset != null and limit != null">
+		limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="getTeamDetail" resultType="com.example.stimulate.entity.TeamVO">
+		SELECT
+			`id` AS id,
+			`name` AS name,
+			`city` AS city,
+			`college` AS college,
+			`school` AS school,
+			`clazz` AS clazz,
+			`major` AS major,
+			`introduce` AS introduce,
+			`createuser` AS createuser,
+			`createtime` AS createtime,
+			`updateuser` AS updateuser,
+			`updatetime` AS updatetime,
+			`deadtime` AS deadtime,
+			`type` AS type,
+			`leader` AS leader,
+			`team_count` AS teamCount
+			FROM  team
+			WHERE id = #{id}
+	</select>
+
+	<insert id="saveTeamUser">
+		INSERT INTO and_team_user`
+		(`team_id`, `user_id`, `role_id`)
+		 VALUES
+		(#{teamId}, #{userId}, #{roleId})
+	</insert>
+
+	<select id="getListByTeamId" resultType="com.example.stimulate.entity.TeamMembers">
+
+		SELECT atu.user_id  AS id, u.username AS userName,atu.role_id AS roleId ,r.name AS roleName
+		FROM and_team_user AS atu LEFT  join `user` AS u ON atu.user_id = u.id
+		LEFT  JOIN `role` as r ON atu.role_id = r.id
+		WHERE atu.team_id = #{teamId}
+
+	</select>
+
+	<select id="existTeamUser" resultType="int">
+
+		select count(1) FROM team WHERE  team_id = #{teamId} and user_id = #{userId};
+	</select>
+
+	<select id="getTeamCount" resultType="integer">
+
+		SELECT team_count  FROM `team` WHERE `id` = #{id};
+
+	</select>
+
+	<delete id="deleteTeamUser">
+
+		DELETE FROM and_team_user  WHERE `user_id` = #{userId}  and `team_id` = #{teamId}
+
+	</delete>
+
+</mapper>

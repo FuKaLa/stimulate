@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.stimulate.dao.SummaryDao">
+
+
+    <insert id="save" parameterType="com.example.stimulate.entity.Summary">
+
+            INSERT INTO `summary` (
+            `id`,
+            `team_id`,
+            `type_id`,
+            `context`,
+            `createuser`,
+            `createtime`,
+            `updateuser`,
+            `updatetime`
+                )
+            VALUES
+                (
+            #{id},
+            #{teamId},
+            #{type},
+            #{context},
+            #{createuser},
+            #{createtime},
+            NULL,
+            NULL
+        );
+
+    </insert>
+
+
+    <select id="getSummaryList" resultType="com.example.stimulate.entity.Summary">
+
+        SELECT
+            `id`,
+            `type_id` AS type,
+            `context`
+            FROM  summary WHERE createuser = #{userId}
+
+    </select>
+
+    <select id="getSummaryDetail" resultType="com.example.stimulate.entity.Summary">
+
+         SELECT
+            `type_id` AS type,
+            `context`
+            FROM  summary WHERE `id` = #{summaryId}
+
+
+    </select>
+
+    <update id="update" parameterType="com.example.stimulate.entity.Summary">
+
+        UPDATE `summary`
+         SET
+         `context`=#{context},
+         `updatetime`=#{updatetime}
+         WHERE   `id` = #{id}
+
+    </update>
+
+   <delete id="deleteSummary">
+
+       DELETE FROM `summary` WHERE   `id` = #{summaryId}
+
+   </delete>
+
+</mapper>
