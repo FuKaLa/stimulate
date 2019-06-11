@@ -16,7 +16,7 @@ public class QuestionTVO implements Serializable{
 
     private String createName;
 
-    private String createId;
+    private Integer createId;
 
     private Date createtime;
 
@@ -50,11 +50,11 @@ public class QuestionTVO implements Serializable{
         this.createName = createName;
     }
 
-    public String getCreateId() {
+    public Integer getCreateId() {
         return createId;
     }
 
-    public void setCreateId(String createId) {
+    public void setCreateId(Integer createId) {
         this.createId = createId;
     }
 
