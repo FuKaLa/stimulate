@@ -101,9 +101,9 @@
 			</if>
 		</where>
 		order by createtime desc
-		<if test="offset != null and limit != null">
-		limit #{offset}, #{limit}
-		</if>
+		<!--<if test="offset != null and limit != null">-->
+		<!--limit #{offset}, #{limit}-->
+		<!--</if>-->
 	</select>
 
 	<select id="getTeamDetail" resultType="com.example.stimulate.entity.TeamVO">
@@ -129,7 +129,7 @@
 	</select>
 
 	<insert id="saveTeamUser">
-		INSERT INTO and_team_user`
+		INSERT INTO `and_team_user`
 		(`team_id`, `user_id`, `role_id`)
 		 VALUES
 		(#{teamId}, #{userId}, #{roleId})
@@ -146,7 +146,8 @@
 
 	<select id="existTeamUser" resultType="int">
 
-		select count(1) FROM team WHERE  team_id = #{teamId} and user_id = #{userId};
+		select count(1) FROM `and_team_user` WHERE  team_id = #{teamId} and user_id = #{userId};
+
 	</select>
 
 	<select id="getTeamCount" resultType="integer">

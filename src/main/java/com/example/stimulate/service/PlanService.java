@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public interface PlanService {
 
-    List<Plan> list(Map<String, Object> map);
+    List<Plan> list(String name);
 
     int save(Plan plan);
 

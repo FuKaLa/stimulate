@@ -27,7 +27,7 @@ public class QuestionController extends BaseController {
     private QuestionService questionService;
 
     /**
-     * 学生提问  创建问题
+     * 学生提问  创建问题 已经调试
      */
     @ResponseBody
     @RequestMapping("/saveQuestion")
@@ -53,16 +53,16 @@ public class QuestionController extends BaseController {
 
 
     /**
-     * 问题列表（学生）
+     * 问题列表（学生） 已经调试 （差一个模糊查询）
      */
     @ResponseBody
     @RequestMapping("/getAnsweredS")
-    public R getAnsweredS(Integer studentId,Integer status){
+    public R getAnsweredS(Integer userId,Integer status){
 //        if(getUser().getId() == null || getUser().getId() == 0){
 //            return R.error(900,"用户信息失效，请重新登录");
 //        }
 //        Integer studentId = getUser().getId();
-        return R.resultData(questionService.getAnsweredS(studentId,status));
+        return R.resultData(questionService.getAnsweredS(userId,status));
     }
     //===============================================================
     /**
@@ -70,8 +70,8 @@ public class QuestionController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("/getAnsweredT")
-    public R getAnsweredT(Integer teacherId,Integer status){
-        return R.resultData(questionService.getAnsweredT(teacherId,status));
+    public R getAnsweredT(Integer userId,Integer status){
+        return R.resultData(questionService.getAnsweredT(userId,status));
     }
 
     /**
@@ -97,7 +97,7 @@ public class QuestionController extends BaseController {
     }
 
     /**
-     * 获取老师列表
+     * 获取老师列表  已经调试
      * @return
      */
     @ResponseBody

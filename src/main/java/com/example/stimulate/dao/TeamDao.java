@@ -23,7 +23,7 @@ public interface TeamDao {
 
     Integer getJoinCount(@Param("id") Integer id);
 
-    List<TeamVO> getTeamList(Map<String, Object> map);
+    List<TeamVO> getTeamList(@Param("name") String name);
 
     TeamVO getTeamDetail(@Param("id") Integer id);
 

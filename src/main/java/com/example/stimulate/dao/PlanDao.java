@@ -15,7 +15,7 @@ import java.util.Map;
 @Repository
 public interface PlanDao {
     //TODO
-    List<Plan> getList(Map<String, Object> map);
+    List<Plan> getList(@Param("name") String name);
     //TODO
     int save(Plan plan);
     //TODO

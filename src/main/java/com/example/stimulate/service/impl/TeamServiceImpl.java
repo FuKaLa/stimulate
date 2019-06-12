@@ -1,13 +1,16 @@
 package com.example.stimulate.service.impl;
 
+import com.example.stimulate.StimulateApplication;
 import com.example.stimulate.dao.TeamDao;
 import com.example.stimulate.entity.Team;
 import com.example.stimulate.entity.TeamVO;
 import com.example.stimulate.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
@@ -44,9 +47,9 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public List<TeamVO> getTeamList(Map<String, Object> params) {
+    public List<TeamVO> getTeamList(String name) {
         //查询所有的团队
-        List<TeamVO> allList = teamDao.getTeamList(params);
+        List<TeamVO> allList = teamDao.getTeamList(name);
         if (CollectionUtils.isEmpty(allList)){
             return allList;
         }
@@ -76,7 +79,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public int checkJoin(Integer teamId) {
+    public int checkJoin(Integer teamId) throws ParseException {
         TeamVO vo = teamDao.getTeamDetail(teamId);
         //判断是否可以加入①人数是否满员②时间是否截至
         //1.查询需要团队人数
@@ -89,10 +92,7 @@ public class TeamServiceImpl implements TeamService {
         String nowTime = df.format(new Date());// new Date()为获取当前系统时间
 
         if(allCount == 0){
-            int int1 = Integer.parseInt(deadTime);
-            int int2 = Integer.parseInt(nowTime);
-            int result = int1-int2;
-            if(result > 0){
+            if(dateCom(nowTime,deadTime)){
                 return 0;//可以报名
             }
             return 1;//报名时间截至
@@ -101,14 +101,10 @@ public class TeamServiceImpl implements TeamService {
             count = teamDao.getJoinCount(teamId);
             if(allCount > count){
                 //判断时间是否满足
-                int int1 = Integer.parseInt(deadTime);
-                int int2 = Integer.parseInt(nowTime);
-                int result = int1-int2;
-                if(result > 0){
+                if(dateCom(nowTime,deadTime)){
                     return 0;//可以报名
                 }
                 return 1;//报名时间截至
-
             }
             return 2;//人数已满
         }
@@ -119,4 +115,27 @@ public class TeamServiceImpl implements TeamService {
     public int deleteTeamUser(Integer userId, Integer teamId) {
         return teamDao.deleteTeamUser(userId,teamId);
     }
+
+
+    public static boolean dateCom(String time1,String time2)throws ParseException{
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date a = format.parse(time1);
+        Date b = format.parse(time2);
+
+        if(a.before(b)){
+            return true;
+        }
+        return false;
+    }
+
+    public static void main(String[] args) throws Exception{
+        boolean b = dateCom("2017-09-09", "2019-09-08");
+        if(b){
+            System.out.println(77);
+        }
+        System.out.println("===================项目启动");
+    }
+
+
 }

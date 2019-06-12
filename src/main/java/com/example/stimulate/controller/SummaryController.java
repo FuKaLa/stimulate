@@ -92,10 +92,9 @@ public class SummaryController extends BaseController{
     /**
      * 权限查看总结
      */
-//    @ResponseBody
-//    @RequestMapping("/getSummaryList")
-//    public R getSummaryList333(){
-//        summaryService.deleteSummary(1);
-//        return R.ok();
-//    }
+    @ResponseBody
+    @RequestMapping("/getSummaryList")
+    public R getSummaryList333(){
+        return R.resultData(summaryService.getSummaryAllList());
+    }
 }

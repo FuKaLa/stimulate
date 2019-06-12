@@ -30,15 +30,24 @@ public class PlanController extends BaseController{
     /**
      * 列表查询
      */
+//    @ResponseBody
+//    @RequestMapping("/listPage")
+//    public R listPage(@RequestParam() Map<String, Object> params){
+//        //查询列表数据
+//        setPage(params);
+////        List<Plan> courseList = planService.list(params);
+//        Page<Plan> list = (Page<Plan>) courseList;
+//        return R.resultData(list);
+//    }
+
     @ResponseBody
     @RequestMapping("/list")
-    public R list(@RequestParam() Map<String, Object> params){
+    public R list(String name){
         //查询列表数据
-        setPage(params);
-        List<Plan> courseList = planService.list(params);
-        Page<Plan> list = (Page<Plan>) courseList;
-        return R.resultData(list);
+        List<Plan> courseList = planService.list(name);
+        return R.resultData(courseList);
     }
+
 
     @ResponseBody
     @RequestMapping("/save")

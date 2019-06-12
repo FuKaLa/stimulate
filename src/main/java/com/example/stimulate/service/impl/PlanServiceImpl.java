@@ -19,8 +19,8 @@ public class PlanServiceImpl implements PlanService {
     private PlanDao planDao;
 
     @Override
-    public List<Plan> list(Map<String, Object> map) {
-        return planDao.getList(map);
+    public List<Plan> list(String name) {
+        return planDao.getList(name);
     }
 
     @Override

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -54,12 +55,12 @@ public class TeamController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("/getNotJoinList")
-    public R  getNotJoinList(@RequestParam() Map<String, Object> params){
+    public R  getNotJoinList(String name){
         //查询列表数据
-        setPage(params);
-        List<TeamVO> courseList = teamService.getTeamList(params);
-        Page<TeamVO> list = (Page<TeamVO>) courseList;
-        return R.resultData(list);
+//        setPage(params);
+        List<TeamVO> courseList = teamService.getTeamList(name);
+//        Page<TeamVO> list = (Page<TeamVO>) courseList;
+        return R.resultData(courseList);
     }
 
     /**
@@ -85,7 +86,7 @@ public class TeamController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("/join")
-    public R saveTeamUser(Integer userId,Integer teamId,Integer roleId){
+    public R saveTeamUser(Integer userId,Integer teamId,Integer roleId) throws ParseException {
         //判断用户是否已经加入
         if(teamService.existTeamUser(userId,teamId)>0){
             return R.ok();
@@ -95,7 +96,7 @@ public class TeamController extends BaseController {
         int flag = teamService.checkJoin(teamId);
         if(flag == 0){
             if( teamService.saveTeamUser(userId,teamId,roleId) < 1){
-                return R.error();
+                return R.error("添加失败");
             }
         }
         if(flag == 1){

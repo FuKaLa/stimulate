@@ -16,6 +16,8 @@ public interface SummaryService {
 
     List<Summary> getSummaryList(Integer userId);
 
+    List<Summary> getSummaryAllList();
+
     Summary getSummaryDetail(Integer summaryId);
 
     int deleteSummary(Integer summaryId);
