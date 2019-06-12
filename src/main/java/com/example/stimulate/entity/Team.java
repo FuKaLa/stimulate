@@ -24,6 +24,15 @@ public class Team implements Serializable {
     private int type;
     private String leader;
     private int teamCount;
+    private String college;
+
+    public String getCollege() {
+        return college;
+    }
+
+    public void setCollege(String college) {
+        this.college = college;
+    }
 
     public int getId() {
         return id;
