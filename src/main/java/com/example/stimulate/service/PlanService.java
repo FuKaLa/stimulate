@@ -19,4 +19,6 @@ public interface PlanService {
     int deleteById(Integer id);
 
     Plan getPlanById(Integer id);
+
+    Map selectOne();
 }

@@ -25,4 +25,5 @@ public interface PlanDao {
     //TODO
     Plan getPlanById(@Param("id") Integer id);
 
+    Map selectOne();
 }

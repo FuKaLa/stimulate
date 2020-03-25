@@ -42,4 +42,9 @@ public class PlanServiceImpl implements PlanService {
     public Plan getPlanById(Integer id) {
         return planDao.getPlanById(id);
     }
+
+    @Override
+    public Map selectOne() {
+        return planDao.selectOne();
+    }
 }
